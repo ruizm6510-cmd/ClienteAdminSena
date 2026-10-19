@@ -11,7 +11,7 @@
                     <a class="nav-link text-success" href="{{ route('training_center.list') }}">TrainingCenter</a>
                 </li>
                  <li class="nav-item">
-                    <a class="nav-link text-success" href="{{ route('area.index') }}">Area</a>
+                    <a class="nav-link text-success" href="{{ route('area.list') }}">Area</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-success" href="{{ route('computer.list') }}">Computer</a>

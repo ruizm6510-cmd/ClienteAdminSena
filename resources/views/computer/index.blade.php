@@ -2,89 +2,69 @@
 
 @section('content')
 
-    <h1>LISTA COMPUTADORES</h1>
+<h1>LISTAR COMPUTADORES</h1>
 
-    <div class="container">
+<div class="container">
 
-        <a href="{{ route('computer.create') }}" class="btn btn-success">
-            <i class="bi bi-plus-circle"></i> Nuevo Computador
-        </a>
+    <a href="{{ route('computer.create') }}" class="btn btn-success mb-3">
+        <i class="bi bi-plus-circle"></i>
+        Nuevo Computador
+    </a>
 
-        <br>
-        <br>
+    <table id="idComputer" class="table table-striped table-bordered" style="width:100%">
 
-        <table id="idComputer" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Numero</th>
+                <th>Marca</th>
+                <th>Foto</th>
+                <th>Detalle</th>
+                <th>Actualizar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
 
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Numero</th>
-                    <th>Marca</th>
-                    <th>Foto</th>
-                    <th>Mostrar</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
+        <tbody>
+            @if(!empty($computers) && is_iterable($computers))
                 @foreach ($computers as $computer)
-
                     <tr>
-
-                        <td>{{ $computer['id'] }}</td>
-
-                        <td>{{ $computer['number'] }}</td>
-
-                        <td>{{ $computer['brand'] }}</td>
-
+                        <td>{{ $computer['id'] ?? '' }}</td>
+                        <td>{{ $computer['number'] ?? ($computer['numero'] ?? '') }}</td>
+                        <td>{{ $computer['brand'] ?? ($computer['marca'] ?? '') }}</td>
                         <td>
-                            <img
-                                src="{{ asset('storage/images/' . ($computer['urlFoto'] ?? '')) }}"
-                                alt="Imagen del computador"
-                                width="80"
-                                height="80"
-                                style="object-fit: cover; border-radius: 5px;"
-                            >
+                            <img src="{{ $computer['photo'] ?? ($computer['foto'] ?? '') }}" alt="Imagen del computador" width="60">
                         </td>
-
-                        {{-- Mostrar --}}
                         <td>
                             <a href="{{ route('computer.show', $computer['id']) }}">
                                 Mostrar
                             </a>
                         </td>
-
-                        {{-- Editar --}}
                         <td>
                             <a href="{{ route('computer.edit', $computer['id']) }}">
                                 Editar
                             </a>
                         </td>
-
-                        {{-- Eliminar --}}
                         <td>
-                            <form action="{{ route('computer.destroy', $computer['id']) }}" method="POST">
-
+                            <form action="{{ route('computer.destroy', $computer['id']) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-
-                                <button type="submit" class="btn btn-success">
+                                <button type="submit" class="btn btn-success btn-sm">
                                     Eliminar Computador
                                 </button>
-
                             </form>
                         </td>
-
                     </tr>
-
                 @endforeach
+            @else
+                <tr>
+                    <td colspan="7" class="text-center">No hay computadores disponibles o la API no respondió correctamente.</td>
+                </tr>
+            @endif
+        </tbody>
 
-            </tbody>
+    </table>
 
-        </table>
-
-    </div>
+</div>
 
 @endsection

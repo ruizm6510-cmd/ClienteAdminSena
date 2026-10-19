@@ -2,74 +2,63 @@
 
 @section('content')
 
-    <h1>LISTA AREA</h1>
+<h1>LISTAR ÁREAS</h1>
 
-    <div class="container">
+<div class="container">
 
-        {{-- Botón para crear una nueva área --}}
-        <a href="{{ route('area.create') }}" class="btn btn-success mb-3">
-            <i class="bi bi-plus-circle"></i> Nueva Area
-        </a>
+    <a href="{{ route('area.create') }}" class="btn btn-success mb-3">
+        <i class="bi bi-plus-circle"></i>
+        Nueva Área
+    </a>
 
-        <table id="idProduct" class="table table-striped table-bordered" style="width:100%">
+    <table id="idArea" class="table table-striped table-bordered" style="width:100%">
 
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Mostrar</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Detalle</th>
+                <th>Actualizar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
 
-            <tbody>
-
+        <tbody>
+            @if(!empty($areas) && is_iterable($areas))
                 @foreach ($areas as $area)
-
                     <tr>
-                        <td>{{ $area['id'] }}</td>
-
-                        <td>{{ $area['name'] }}</td>
-
-                        {{-- Mostrar --}}
+                        <td>{{ $area['id'] ?? '' }}</td>
+                        <td>{{ $area['name'] ?? '' }}</td>
                         <td>
                             <a href="{{ route('area.show', $area['id']) }}">
                                 Mostrar
                             </a>
                         </td>
-
-                        {{-- Editar --}}
                         <td>
                             <a href="{{ route('area.edit', $area['id']) }}">
                                 Editar
                             </a>
                         </td>
-
-                        {{-- Eliminar --}}
                         <td>
-                            <form action="{{ route('area.destroy', $area['id']) }}" method="POST">
-
+                            <form action="{{ route('area.destroy', $area['id']) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-
-                                <button type="submit" class="btn btn-success">
-                                    Eliminar Area
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    Eliminar Área
                                 </button>
-
                             </form>
                         </td>
-
                     </tr>
-
                 @endforeach
+            @else
+                <tr>
+                    <td colspan="5" class="text-center">No hay áreas disponibles o la API no respondió correctamente.</td>
+                </tr>
+            @endif
+        </tbody>
 
-            </tbody>
+    </table>
 
-        </table>
-
-    </div>
+</div>
 
 @endsection
-
-               

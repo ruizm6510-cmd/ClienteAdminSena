@@ -2,99 +2,75 @@
 
 @section('content')
 
-    <h1>LISTA APRENDICES</h1>
+<h1>LISTAR APRENDICES</h1>
 
-    <div class="container">
+<div class="container">
 
-        <a href="{{ route('aprendice.create') }}" class="btn btn-success">
-            <i class="bi bi-plus-circle"></i> Nuevo Aprendiz
-        </a>
+    <a href="{{ route('aprendice.create') }}" class="btn btn-success mb-3">
+        <i class="bi bi-plus-circle"></i>
+        Nuevo Aprendiz
+    </a>
 
-        <br>
-        <br>
+    <table id="idAprendice" class="table table-striped table-bordered" style="width:100%">
 
-        <table id="idAprendice" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Celular</th>
+                <th>Curso</th>
+                <th>Computador</th>
+                <th>Foto</th>
+                <th>Detalle</th>
+                <th>Actualizar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
 
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Celular</th>
-                    <th>Curso</th>
-                    <th>Computador</th>
-                    <th>Foto</th>
-                    <th>Mostrar</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                @foreach ($aprendices as $aprendiz)
-
+        <tbody>
+            @if(!empty($aprendices) && is_iterable($aprendices))
+                @foreach ($aprendices as $aprendice)
                     <tr>
-
-                        <td>{{ $aprendiz['id'] }}</td>
-
-                        <td>{{ $aprendiz['name'] }}</td>
-
-                        <td>{{ $aprendiz['email'] }}</td>
-
-                        <td>{{ $aprendiz['cell_number'] }}</td>
-
+                        <td>{{ $aprendice['id'] ?? '' }}</td>
+                        <td>{{ $aprendice['name'] ?? ($aprendice['nombre'] ?? '') }}</td>
+                        <td>{{ $aprendice['email'] ?? '' }}</td>
+                        <td>{{ $aprendice['cell_number'] ?? ($aprendice['celular'] ?? '') }}</td>
+                        <td>{{ $aprendice['course_id'] ?? ($aprendice['curso_id'] ?? '') }}</td>
+                        <td>{{ $aprendice['computer_id'] ?? ($aprendice['computador_id'] ?? '') }}</td>
                         <td>
-                            {{ $aprendiz['course_id'] }}
+                            <img src="{{ $aprendice['photo'] ?? ($aprendice['foto'] ?? '') }}" alt="Imagen del aprendiz" width="60">
                         </td>
-
                         <td>
-                            {{ $aprendiz['computer_id'] }}
-                        </td>
-                        
-                        <td>
-                            <img
-                                src="{{ asset('storage/images/' . ($aprendiz['urlFoto'] ?? '')) }}"
-                                alt="Imagen del aprendiz"
-                                width="80"
-                                height="80"
-                                style="object-fit: cover; border-radius: 5px;"
-                            >
-                        </td>
-
-                        <td>
-                            <a href="{{ route('aprendice.show', $aprendiz['id']) }}">
+                            <a href="{{ route('aprendice.show', $aprendice['id']) }}">
                                 Mostrar
                             </a>
                         </td>
-
                         <td>
-                            <a href="{{ route('aprendice.edit', $aprendiz['id']) }}">
+                            <a href="{{ route('aprendice.edit', $aprendice['id']) }}">
                                 Editar
                             </a>
                         </td>
-
                         <td>
-                            <form action="{{ route('aprendice.destroy', $aprendiz['id']) }}" method="POST">
-
+                            <form action="{{ route('aprendice.destroy', $aprendice['id']) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-
-                                <button type="submit" class="btn btn-success">
+                                <button type="submit" class="btn btn-success btn-sm">
                                     Eliminar Aprendiz
                                 </button>
-
                             </form>
                         </td>
-
                     </tr>
-
                 @endforeach
+            @else
+                <tr>
+                    <td colspan="10" class="text-center">No hay aprendices disponibles o la API no respondió correctamente.</td>
+                </tr>
+            @endif
+        </tbody>
 
-            </tbody>
+    </table>
 
-        </table>
-
-    </div>
+</div>
 
 @endsection

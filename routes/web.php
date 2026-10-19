@@ -20,19 +20,24 @@ use App\Http\Controllers\TeacherController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+	return view('welcome');
+})->name('home');
 
-Route::get('/areas', [App\Http\Controllers\AreaController::class, 'index'])->name('areas.index');
-Route::get('area/list', [AreaController::class, 'index'])->name('area.index');
-Route::get('area/show/{id}', [AreaController::class, 'show'])->name('area.show');
-Route::get('area/create', [AreaController::class, 'create'])->name('area.create');
-Route::post('area/store', [AreaController::class, 'store'])->name('area.store');
-Route::get('area/{area}/edit', [AreaController::class, 'edit'])->name('area.edit');
-Route::put('area/{area}', [AreaController::class, 'update'])->name('area.update');
-Route::delete('area/{area}', [AreaController::class, 'destroy'])->name('area.destroy');
 
-// TRAINING CENTERS
+
+
+
+Route::get('/areas', [AreaController::class, 'index'])->name('areas.index');
+Route::get('/area/list', [AreaController::class, 'index'])->name('area.list');
+Route::get('/area/create', [AreaController::class, 'create'])->name('area.create');
+Route::post('/area/store', [AreaController::class, 'store'])->name('area.store');
+Route::get('/area/show/{id}', [AreaController::class, 'show'])->name('area.show');
+Route::get('/area/{id}/edit', [AreaController::class, 'edit'])->name('area.edit');
+Route::put('/area/{id}', [AreaController::class, 'update'])->name('area.update');
+Route::delete('/area/{id}', [AreaController::class, 'destroy'])->name('area.destroy');
+
+
+
 Route::get('/training_centers', [App\Http\Controllers\TrainingCenterController::class, 'index'])->name('training_centers.index');
 Route::get('training_center/show/{id}', [TrainingCenterController::class, 'show'])->name('training_center.show');
 Route::get('training_center/list', [TrainingCenterController::class, 'index'])->name('training_center.list');
@@ -42,8 +47,6 @@ Route::get('training_center/{training_center}/edit', [TrainingCenterController::
 Route::put('training_center/{training_center}', [TrainingCenterController::class, 'update'])->name('training_center.update');
 Route::delete('training_center/{training_center}', [TrainingCenterController::class, 'destroy'])->name('training_center.destroy');
 
-
-// COMPUTERS
 
 
 Route::get('/computers', [App\Http\Controllers\ComputerController::class, 'index'])->name('computers.index');
@@ -57,10 +60,6 @@ Route::delete('computer/{computer}', [ComputerController::class, 'destroy'])->na
 
 
 
-
-
-
-// COURSES
 Route::get('/courses', [App\Http\Controllers\CourseController::class, 'index'])->name('courses.index');
 Route::get('course/list', [CourseController::class, 'index'])->name('course.list');
 Route::get('course/show/{id}', [CourseController::class, 'show'])->name('course.show');
@@ -73,8 +72,6 @@ Route::delete('course/{course}', [CourseController::class, 'destroy']) ->name('c
 
 
 
-
-// APRENDICES
 Route::get('/aprendices', [App\Http\Controllers\AprendiceController::class, 'index'])->name('aprendices.index');
 Route::get('aprendice/list', [AprendiceController::class, 'index'])->name('aprendice.list');
 Route::get('aprendice/show/{id}', [AprendiceController::class, 'show']) ->name('aprendice.show');
@@ -85,7 +82,8 @@ Route::put('aprendice/{aprendice}', [AprendiceController::class, 'update'])->nam
 Route::delete('aprendice/{aprendice}', [AprendiceController::class, 'destroy'])->name('aprendice.destroy');
 
 
-// TEACHERS
+
+
 Route::get('/teachers', [App\Http\Controllers\TeacherController::class, 'index'])->name('teachers.index');
 Route::get('teacher/show/{id}',[TeacherController::class,'show'])->name('teacher.show');
 Route::get('teacher/list',[TeacherController::class,'index'])->name('teacher.list');
@@ -94,5 +92,3 @@ Route::post('teacher/store',[TeacherController::class,'store'])->name('teacher.s
 Route::get('teacher/{teacher}/edit',[TeacherController::class,'edit'])->name('teacher.edit');
 Route::put('teacher/{teacher}',[TeacherController::class,'update'])->name('teacher.update');
 Route::delete('teacher/{teacher}',[TeacherController::class,'destroy'])->name('teacher.destroy');
-
-
