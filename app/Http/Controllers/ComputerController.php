@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Http;
 
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 
 class ComputerController extends Controller
@@ -36,22 +36,25 @@ class ComputerController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'number' => 'required|integer',
             'brand' => 'required|string|max:255',
-            'urlFoto' => 'nullable|image|max:2048',
+            'urlFoto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
         ]);
 
-        unset($data['urlFoto']);
         $url = env('URL_SERVER_API') . '/computers';
+        
+        $http = Http::asMultipart();
 
         if ($request->hasFile('urlFoto')) {
             $file = $request->file('urlFoto');
-            Http::attach('urlFoto', file_get_contents($file->getRealPath()), $file->getClientOriginalName())
-                ->post($url, $data);
-        } else {
-            Http::post($url, $data);
+            $http->attach('urlFoto', file_get_contents($file->getRealPath()), $file->getClientOriginalName());
         }
+
+        $http->post($url, [
+            'number' => $request->number,
+            'brand' => $request->brand,
+        ]);
 
         return redirect()->route('computer.list');
     }
@@ -66,22 +69,27 @@ class ComputerController extends Controller
 
     public function update(Request $request, $id)
     {
-        $data = $request->validate([
+        $request->validate([
             'number' => 'required|integer',
             'brand' => 'required|string|max:255',
-            'urlFoto' => 'nullable|image|max:2048',
+            'urlFoto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
         ]);
 
-        unset($data['urlFoto']);
         $url = env('URL_SERVER_API') . '/computers/' . $id;
+
+        $http = Http::asMultipart();
 
         if ($request->hasFile('urlFoto')) {
             $file = $request->file('urlFoto');
-            Http::attach('urlFoto', file_get_contents($file->getRealPath()), $file->getClientOriginalName())
-                ->put($url, $data);
-        } else {
-            Http::put($url, $data);
+            $http->attach('urlFoto', file_get_contents($file->getRealPath()), $file->getClientOriginalName());
         }
+
+        // Nota: Laravel/Symfony a veces requiere un campo _method='PUT' al enviar archivos por POST con multipart
+        $http->post($url, [
+            '_method' => 'PUT',
+            'number' => $request->number,
+            'brand' => $request->brand,
+        ]);
 
         return redirect()->route('computer.list');
     }

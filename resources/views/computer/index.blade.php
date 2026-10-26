@@ -33,23 +33,27 @@
                         <td>{{ $computer['number'] ?? ($computer['numero'] ?? '') }}</td>
                         <td>{{ $computer['brand'] ?? ($computer['marca'] ?? '') }}</td>
                         <td>
-                            <img src="{{ $computer['photo'] ?? ($computer['foto'] ?? '') }}" alt="Imagen del computador" width="60">
+                            @if(!empty($computer['urlFoto']))
+                                <img src="{{ $computer['urlFoto'] }}" alt="Imagen del computador" width="60" class="img-thumbnail">
+                            @else
+                                <span class="text-muted">Sin foto</span>
+                            @endif
                         </td>
                         <td>
-                            <a href="{{ route('computer.show', $computer['id']) }}">
+                            <a href="{{ route('computer.show', $computer['id']) }}" class="btn btn-info btn-sm">
                                 Mostrar
                             </a>
                         </td>
                         <td>
-                            <a href="{{ route('computer.edit', $computer['id']) }}">
+                            <a href="{{ route('computer.edit', $computer['id']) }}" class="btn btn-warning btn-sm">
                                 Editar
                             </a>
                         </td>
                         <td>
-                            <form action="{{ route('computer.destroy', $computer['id']) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('computer.destroy', $computer['id']) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar este computador?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-success btn-sm">
+                                <button type="submit" class="btn btn-danger btn-sm">
                                     Eliminar Computador
                                 </button>
                             </form>

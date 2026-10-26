@@ -2,31 +2,33 @@
 
 @section('content')
 
-<h1>formulario computer</h1>
+<h1>Crear Computadora</h1>
 
-<form action="{{route('computer.store')}}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('computer.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
 
-@csrf
+    <label>
+        Número:
+        <br>
+        <input type="number" name="number" class="form-control" required>
+    </label>
+    <br><br>
 
-<label>
-    Numero:
+    <label>
+        Marca:
+        <br>
+        <input type="text" name="brand" class="form-control" required>
+    </label>
+    <br><br>
+
+    <div class="mb-3">
+        <label class="form-label">Foto de la Computadora:</label>
+        <br>
+        <input type="file" name="urlFoto" class="form-control-file" accept="image/*">
+    </div>
     <br>
-    <input type="number" name="number">
-</label>
-<br>
-<br>
-<label>
-    Marca:
-    <br>
-    <input type="text" name="brand">
-</label>
-<br>
-<br>
 
- <input type="file" name="urlFoto" class="form-control-file" accept="image/*">
-
-
-<button type="submit">Enviar Formulario:</button>
+    <button type="submit" class="btn btn-outline-success btn-sm">Enviar Formulario</button>
 </form>
 
 @endsection
